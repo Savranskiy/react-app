@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Users.module.css';
 import userPhoto from '../../assets/images/user.png';
 import { NavLink } from 'react-router-dom';
+import { usersAPI } from '../../api/api';
 
 const Users = (props) => {
     const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -10,13 +11,15 @@ const Users = (props) => {
         pages.push(i);
     }
 
+
+
     return (
         <div>
             <div>
                 {pages.map(p => {
                     return <span key={p}
-                                 className={props.currentPage === p ? styles.selectedPage : ''}
-                                 onClick={() => { props.onPageChanged(p) }}>{p}</span>
+                        className={props.currentPage === p ? styles.selectedPage : ''}
+                        onClick={() => { props.onPageChanged(p) }}>{p}</span>
                 })}
             </div>
             {
@@ -29,8 +32,21 @@ const Users = (props) => {
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
-                                : <button onClick={() => { props.follow(u.id) }}>Follow</button>}
+                                ? <button onClick={() => {
+                                    usersAPI.unfollow(u.id).then(data => {
+                                        if (data.resultCode === 0) {
+                                            props.unfollow(u.id);
+                                        }
+                                    });
+
+                                }}>Unfollow</button>
+                                : <button onClick={() => {
+                                    usersAPI.follow(u.id).then(data => {
+                                        if (data.resultCode === 0) {
+                                            props.follow(u.id);
+                                        }
+                                    });
+                                }}>Follow</button>}
                         </div>
                     </span>
                     <span>
