@@ -11,8 +11,6 @@ const Users = (props) => {
         pages.push(i);
     }
 
-
-
     return (
         <div>
             <div>
@@ -31,26 +29,9 @@ const Users = (props) => {
                             </NavLink>
                         </div>
                         <div>
-                            {u.followed
-                                ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                    props.toggleFollowingProgress(true, u.id)
-                                    usersAPI.unfollow(u.id).then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.unfollow(u.id);
-                                        }
-                                        props.toggleFollowingProgress(false, u.id);
-                                    });
-
-                                }}>Unfollow</button>
-                                : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                    props.toggleFollowingProgress(true, u.id)
-                                    usersAPI.follow(u.id).then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.follow(u.id);
-                                        }
-                                        props.toggleFollowingProgress(false, u.id);
-                                    });
-                                }}>Follow</button>}
+                        {u.followed
+                                ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {props.unfollow(u.id)}}>Unfollow</button>
+                                : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {props.follow(u.id)}}>Follow</button>}
                         </div>
                     </span>
                     <span>
