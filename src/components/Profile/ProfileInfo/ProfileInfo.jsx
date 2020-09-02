@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from './ProfileInfo.module.css';
 import Preloader from '../../common/Preloader/Preloader';
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
     if (!props.profile) {
@@ -9,14 +10,14 @@ const ProfileInfo = (props) => {
 
     return (
         <div>
-            <div>
+            {/* <div>
                 <img src="https://www.w3schools.com/howto/img_snow_wide.jpg" alt="header" />
-            </div>
+            </div> */}
             <div className={cn.descriptionBlock}>
                 <img src={props.profile.photos.small} />
                 <br/>
                 {props.profile.aboutMe}
-                {/* <img src="https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg" alt="avatar" /> */}
+                <ProfileStatus status={'hello'} />
             </div>
         </div>
     );
