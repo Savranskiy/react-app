@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from './ProfileInfo.module.css';
 
 class ProfileStatus extends React.Component {
     state = {
@@ -20,6 +19,16 @@ class ProfileStatus extends React.Component {
         this.setState({status: e.currentTarget.value});
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            });
+        }
+
+        console.log('componentDidMount');
+    }
+
     render() {
         return (
             <div>
@@ -28,7 +37,7 @@ class ProfileStatus extends React.Component {
                     : <div><input autoFocus={true} onChange={this.onStatusChange} onBlur={this.deactivateEditMode} type="text" value={this.state.status} /></div>}
             </div>
         );
-    } 
+    }
 };
 
 export default ProfileStatus;
