@@ -1,32 +1,43 @@
 import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import Post from './Post/Post';
 import s from './MyPosts.module.css';
+import { required, maxLengthCreator } from '../../../utils/validators';
+import { Textarea } from '../../common/FormsControls/FormsControls';
+
+const maxLength = maxLengthCreator(10);
+
+const AddNewPostForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field
+                  component={Textarea}
+                  name="newPostText"
+                  validate={[required, maxLength]}
+                  placeholder="Post text"
+                />
+            </div>
+            <div>
+                <button type="submit">Add post</button>
+            </div>
+        </form>
+    );
+};
+
+const AddNewPostReactForm = reduxForm({ form: 'ProfileAddNewPostForm' })(AddNewPostForm);
 
 const MyPosts = (props) => {
-    const postsElements = props.posts.map(p => <Post message={p.message} key={p.id} likesCount={p.likesCount} />)
+    const postsElements = props.posts.map((p) => <Post message={p.message} key={p.id} likesCount={p.likesCount} />);
 
-    let newPostElement = React.createRef();
-
-    const onAddPost = () => {
-        props.addPost();
-    };
-
-    const onPostChange = () => {
-        const text = newPostElement.current.value;
-        props.updateNewPostText(text);
+    const onAddPost = (values) => {
+        props.addPost(values.newPostText);
     };
 
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}></textarea>
-                </div>
-                <div>
-                    <button onClick={onAddPost}>Add post</button>
-                </div>
-            </div>
+            <AddNewPostReactForm onSubmit={onAddPost} />
             <div className={s.posts}>
                 {postsElements}
             </div>
